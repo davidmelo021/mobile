@@ -4,7 +4,8 @@ import {View,Text,TextInput,TouchableOpacity,StyleSheet,ScrollView} from "react-
 const App = () => {
     const[task, setTask] = useState('');
     const[day,setDay] = useState('');
-    const[tasks, setTasks] = useState([]);
+    type Task = { task: string; day: string };
+    const [tasks, setTasks] = useState<Task[]>([]);
 
     const handleAddTask = () => {
         if(task.trim() && day.trim()){
@@ -14,7 +15,7 @@ const App = () => {
         }
     }
 
-    const handleDeleteTask = () => {
+    const handleDeleteTask = (index:number) => {
         const newTasks = [...tasks]
         newTasks.splice(index,1)
         setTasks(newTasks)
@@ -36,7 +37,7 @@ const App = () => {
                             <Text style = {[styles.cell,styles.borderRight,]}>{item.day}</Text>
 
                             <TouchableOpacity onPress={() => handleDeleteTask(index)} style = {[styles.deleteButton,styles.borderRight]}>
-                                <Text style={styles.buttonText}>Excluir</Text>
+                                <Text style={styles.deleteButtonText}>Excluir</Text>
                             </TouchableOpacity>
                         </View>
                     ))}
@@ -47,14 +48,14 @@ const App = () => {
                     style = {[styles.input,styles.taskInput]}
                     placeholder="Tarefa"
                     value = {task}
-                    onChange={(text) => setTask(text)}
+                    onChangeText={(text:any) => setTask(text)}
                 />
 
                 <TextInput
                      style = {[styles.input,styles.dayInput]}
                     placeholder="Dia pra realizar a tarefa"
                     value = {day}
-                    onChange={(text) => setDay(text)}
+                    onChangeText={(text:any) => setDay(text)}
                 />
 
                 <TouchableOpacity onPress={handleAddTask}>
@@ -91,8 +92,79 @@ const styles = StyleSheet.create({
         justifyContent:'space-between',
     },
     header:{
-        
-    }
-})
+        backgroundColor:'#f8f8f8',
+    },
+    headerText:{
+        fontWeight:'bold',
+    },
+    cell:{
+        flex:1,
+        paddingHorizontal:10,
+
+    },
+    deleteButton:{
+        padding:10,
+    },
+    deleteButtonText:{
+        color:'#ff5555',
+        fontWeight:'bold',
+    },
+    inputContainer:{
+        flexDirection:'row',
+        alignItems:'center',
+        marginBottom:10,
+    },
+
+    input:{
+        flex:1,
+        height:40,
+        borderColor:'#ccc',
+        borderWidth:1,
+        borderRadius:10,
+        paddingHorizontal:10,
+        marginRight:10,
+    },
+    addButton:{
+        backgroundColor:'#8be9fd',
+        borderRadius:10,
+        paddingHorizontal:10,
+        paddingVertical:10,
+        marginRight:10,
+    },
+    taskInput:{
+        marginRight:10,
+    },
+    dayInput:{
+        marginRight:10,
+    },
+    buttonText:{
+        fontSize:16,
+        color:'#6272a4',
+        marginLeft:10,  
+    },
+    title:{
+        fontSize:24,
+        fontWeight:'bold',
+        backgroundColor:'#fff',
+        padding:10,
+        borderRadius:10,
+        marginBottom:20,
+        color:'#333',
+        textAlign:'center',
+        textTransform:'uppercase',
+    },
+    borderBottom:{
+        borderBottomWidth:1,
+        borderBottomColor:'#ccc',
+    },
+    borderRight:{
+        borderRightWidth:1,
+        borderRightColor:'#ccc',
+    },
+    dayHeader:{
+        textAlign:'center',
+
+    },
+});
 
 export default App;
